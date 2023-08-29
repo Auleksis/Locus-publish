@@ -1,0 +1,16 @@
+.special-title {
+    color: #9d4eed;
+    font-size: 32px;
+    font-style: italic;
+}
+
+.upload-button {
+    background-color: #262525bf;
+    border: 2px solid;
+    border-color: var(--se);
+    border-radius: 15px;
+    height: 69px;
+    overflow: hidden;
+    position: relative;
+    width: 409px;
+}
