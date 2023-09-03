@@ -1,16 +1,176 @@
+:root {
+    --se: #262626bf;
+    --se-hover: #212121bf;
+    --se-pressed: #161616bf;
+
+    --usual: #FFFFFF;
+    
+    --act: #9d4eed;
+
+    --secondary-act: #581F93;
+    --secondary-act-hover: #4e1d83;
+    --secondary-act-pressed: #41186d;
+}
+
+.background {
+    /* background-color: lightgray 0% 0% / 50px 50px repeat;
+    background-image: url("@res/background.png"),  linear-gradient(113deg, #212020 0%, #000 100%); */
+
+    background-image: linear-gradient(113deg, #212020 0%, #000 100%), url('../resources/t.jpeg');
+
+    width: 100vw;
+    height: 100vh;
+}
+
+.main-box {
+    display: flex;
+    flex-direction: row;
+}
+
+.left-box {
+    margin-left: 35px;
+    margin-top: 50px;
+    flex: 2;
+}
+
 .special-title {
-    color: #9d4eed;
-    font-size: 32px;
+    color: var(--act);
+    /* font-size: 32px; */
     font-style: italic;
+    font-weight: 250;
+    font-family: "Skolar Cyrillic-Italic";
 }
 
 .upload-button {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    padding: 0px 217px 0px 17px;
+    align-items: flex-start;
+
     background-color: #262525bf;
+
     border: 2px solid;
     border-color: var(--se);
     border-radius: 15px;
+
     height: 69px;
+
     overflow: hidden;
     position: relative;
-    width: 409px;
+
+    /*width: 409px;*/
+}
+
+.upload-button:hover {
+    background-color: var(--se-hover);
+}
+
+.upload-button:active {
+    background-color: var(--se-pressed);
+}
+
+.upload-files-label {
+    font-family: "Skolar Cyrillic-Regular";
+    color: transparent;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.usual-text {
+    color: var(--usual);
+}
+
+.highlighted-text {
+    color: var(--act);
+}
+
+.highweight-title {
+    font-family: "Skolar Cyrillic-Regular";
+    font-weight: 600;
+    line-height: 35px;  
+    font-style: normal;
+    color: transparent;
+    
+    margin-top: 18px;
+}
+
+.simple-paragraph {
+    font-family: "Skolar Cyrillic-Regular";
+    font-weight: 400;
+    font-style: normal;
+
+    line-height: normal;
+
+    color: transparent;
+
+    font-size: 20px;
+
+    margin: inherit;
+}
+
+.right-box {
+    min-height: 100px;
+    flex: 1;
+
+    margin-top: 35px;
+    margin-right: 35px;
+    margin-bottom: 35px;
+}
+
+.info-box {
+    border-radius: 15px;
+    border: 2px solid var(--se, rgba(38, 38, 38, 0.75));
+    background: var(--se, rgba(38, 38, 38, 0.75));
+}
+
+.info-list-part {
+    margin-top: 12px;
+    margin-bottom: 33px;
+    margin-right: 34px;
+}
+
+.zero-margin {
+    margin: 0;
+}
+
+.picture {
+    margin-left: 39px;
+    margin-right: 39px;
+}
+
+.question-label {
+    margin-bottom: 12px;
+}
+
+.box-margin {
+    margin-left: 26px;
+    margin-top: 18px;
+    margin-bottom: 37px;
+}
+
+.import-desc-box {
+    margin-bottom: 25px;
+}
+
+.import-button {
+    padding: 9px 26px;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+
+    border-radius: 10px;
+
+    background: var(--secondary-act);
+
+    border-color: transparent;
+}
+
+.import-button:hover {
+    background: var(--secondary-act-hover);
+}
+
+.import-button:active {
+    background: var(--secondary-act-pressed);
 }

@@ -2,10 +2,12 @@
     "compilerOptions": {
         "paths": {
             "@src/*" : ["./src/*"],
-            "@Res/*": ["./src/Resources/*"],
+            "@res/*": ["./src/resources/*"],
             "@storage/*": ["./src/storage/*"],
             "@model/*": ["./src/model/*"],
-            "@styles/*": ["./src/styles/*"]
+            "@styles/*": ["./src/styles/*"],
+            "@fonts/*": ["./src/fonts/*"],
+            "@pages/*": ["./src/pages/*"]
         }
     }
 }

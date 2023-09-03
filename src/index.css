@@ -12,3 +12,13 @@ code {
     monospace;
 }
 
+@font-face {
+  font-family: "Skolar Cyrillic-Italic";
+  src: local("Skolar Cyrillic-Italic"), url("./fonts/SKOLAR/SKOLARCYRILLIC-ITALIC.TTF") format("truetype");
+}
+
+@font-face {
+  font-family: "Skolar Cyrillic-Regular";
+  src: local("Skolar Cyrillic-Regular"), url("./fonts/SKOLAR/SKOLARCYRILLIC.TTF") format("truetype");
+}
+

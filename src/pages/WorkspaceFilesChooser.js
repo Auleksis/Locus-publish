@@ -1,9 +1,9 @@
 import '../App.css';
-import {ReactComponent as Plus} from '@Res/plus.svg'
-import {ReactComponent as Connections} from '@Res/connections.svg'
-import {ReactComponent as ThreeLines} from "@Res/threeLines.svg";
-import {ReactComponent as VerticalFileLine} from "@Res/vertical_file_line.svg"
-import {ReactComponent as Cross} from "@Res/cross.svg"
+import {ReactComponent as Plus} from '@res/plus.svg'
+import {ReactComponent as Connections} from '@res/connections.svg'
+import {ReactComponent as ThreeLines} from "@res/threeLines.svg";
+import {ReactComponent as VerticalFileLine} from "@res/vertical_file_line.svg"
+import {ReactComponent as Cross} from "@res/cross.svg"
 
 import { FixedSizeList } from 'react-window';
 
@@ -161,8 +161,6 @@ function WorkspaceFilesChooser({workspaceName}){
     const contents = await data.getFileContents();
 
     setOpenedText(contents);    
-
-    console.log("ASDASDASD", openedText);
 
     let text = contents;
     const regexForContent = new RegExp(searchedWords, 'gi');

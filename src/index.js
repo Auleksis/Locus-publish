@@ -1,5 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+import '@fonts/SKOLAR/SKOLARCYRILLIC-ITALIC.TTF';
+import '@fonts/SKOLAR/SKOLARCYRILLIC.TTF'
+
+
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
