@@ -11,11 +11,6 @@ import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 function StartPage(){
-  
-  const Title = styled.p`
-    color: white;
-  `;
-
     return (
       <div className='background'>
           <div className='main-box'>
@@ -24,7 +19,7 @@ function StartPage(){
               <h1 className='special-title'>Hello</h1>
     
               <Link to={'/workspace_file_chooser'} style={{textDecoration: 'none'}}>
-                <button className='upload-button' style={{alignItems: 'center', width: 'max-content'}}>
+                <button className='upload-button'>
                     <Plus style={{marginRight: 10}}/>
                     <h2 className='upload-files-label'>
                       <span className='highlighted-text'>Upload </span>

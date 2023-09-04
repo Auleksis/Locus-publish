@@ -4,6 +4,8 @@ import {ReactComponent as Connections} from '@res/connections.svg'
 import {ReactComponent as ThreeLines} from "@res/threeLines.svg";
 import {ReactComponent as VerticalFileLine} from "@res/vertical_file_line.svg"
 import {ReactComponent as Cross} from "@res/cross.svg"
+import { ReactComponent as Burger } from "@res/burger.svg"
+import {ReactComponent as Wand} from "@res/wand.svg";
 
 import { FixedSizeList } from 'react-window';
 
@@ -34,6 +36,9 @@ import { WorkSpaceFile } from "@src/storage/LocusWorkspace/WorkSpaceFile";
 import { WorkSpaceManager } from "@src/storage/LocusWorkspace/WorkSpaceManager";
 
 import {appWindow} from '@tauri-apps/api/window';
+
+import '@styles/WorkspaceFileChooser.css';
+
 
 
 const invokeT = window.__TAURI_IPC__.invoke;
@@ -68,34 +73,30 @@ function WorkspaceFilesChooser({workspaceName}){
 
   }, []);
 
-  useEffect(() => {
-    if(searchedWords.length > 0){
-      const words = searchedWords.trim();
-      if(words.length > 0){
-        const workSpaceManager = new WorkSpaceManager();
-        setSearching(true);
-        setFoundDocs((prev) => [...workSpaceManager.search(searchedWords)]);
+  // useEffect(() => {
+  //   if(searchedWords.length > 0){
+  //     const words = searchedWords.trim();
+  //     if(words.length > 0){
+  //       const workSpaceManager = new WorkSpaceManager();
+  //       setSearching(true);
+  //       setFoundDocs((prev) => [...workSpaceManager.search(searchedWords)]);
 
-        let text = openedText;
-        const regexForContent = new RegExp(searchedWords, 'gi');
-        text = text.replace(regexForContent, `<span style="background-color: #C084FC">$&</span>`);
-        let textViewerContent = `<p style="color: white">${text}</p>`;
-        document.getElementById("textViewer").innerHTML = textViewerContent;
-      }else{
-        setSearching(false);
-        let textViewerContent = `<p style="color: white">${openedText}</p>`;
-        document.getElementById("textViewer").innerHTML = textViewerContent;
-      }
-    }else{
-      setSearching(false);
-      let textViewerContent = `<p style="color: white">${openedText}</p>`;
-      document.getElementById("textViewer").innerHTML = textViewerContent;
-    }
-  }, [searchedWords]);
-
-  const Title = styled.p`
-    color: white;
-  `;
+  //       let text = openedText;
+  //       const regexForContent = new RegExp(searchedWords, 'gi');
+  //       text = text.replace(regexForContent, `<span style="background-color: #C084FC">$&</span>`);
+  //       let textViewerContent = `<p style="color: white">${text}</p>`;
+  //       document.getElementById("textViewer").innerHTML = textViewerContent;
+  //     }else{
+  //       setSearching(false);
+  //       let textViewerContent = `<p style="color: white">${openedText}</p>`;
+  //       document.getElementById("textViewer").innerHTML = textViewerContent;
+  //     }
+  //   }else{
+  //     setSearching(false);
+  //     let textViewerContent = `<p style="color: white">${openedText}</p>`;
+  //     document.getElementById("textViewer").innerHTML = textViewerContent;
+  //   }
+  // }, [searchedWords]);
 
   const selectFiles = async() => {
     const selected = await open({
@@ -162,48 +163,102 @@ function WorkspaceFilesChooser({workspaceName}){
 
     setOpenedText(contents);    
 
-    let text = contents;
-    const regexForContent = new RegExp(searchedWords, 'gi');
-    text = text.replace(regexForContent, `<span style="background-color: #C084FC">$&</span>`);
-    let textViewerContent = `<p style="color: white">${text}</p>`;
-    document.getElementById("textViewer").innerHTML = textViewerContent;
+    // let text = contents;
+    // const regexForContent = new RegExp(searchedWords, 'gi');
+    // text = text.replace(regexForContent, `<span style="background-color: #C084FC">$&</span>`);
+    // let textViewerContent = `<p style="color: white">${text}</p>`;
+    // document.getElementById("textViewer").innerHTML = textViewerContent;
   };
 
   const renderFileRow = ({data, index, style}) =>{
     if(data[index]){
       return(
-        <ListItem style={{...style, color: 'white', backgroundColor: 'transparent', padding: 20}} key={index} component="div" disablePadding onClick={() => docSelected(data[index])}>
-          <VerticalFileLine style={{marginRight: 20}}/>
-          <div style={{width: style.width, display: 'flex', flexDirection: 'row'}}>
-              <ListItemButton style={{padding: 5, backgroundColor: '#262626', borderRadius: 10}}>
-                <ListItemText primary={data[index].title}/>
-              </ListItemButton>
-            <TouchableOpacity onPress={() => deleteFile(data[index].id)}>
-              <Cross/>
-            </TouchableOpacity>
-          </div>
+        <ListItem
+          style={{...style}}
+          className='list-item'
+          key={index} 
+          component="div"
+          disablePadding 
+          onClick={() => docSelected(data[index])}>
+
+          <VerticalFileLine className='list-item-line'/>
+
+          <button className='list-item-button'>
+
+            <div className='name-label-div'>
+              {/* <ListItemText primary={data[index].title}/> */}
+              <p className='simple-paragraph'>
+                <span className='usual-text'>
+                  {data[index].title}
+                </span>
+              </p>
+            </div>
+
+            <div className='cross-button-div'>
+              <button 
+                className='cross-button'
+                onClick={() => deleteFile(data[index].id)}>
+                  <Cross/>
+              </button>
+            </div>
+
+          </button>
         </ListItem>
       );
     }
   }
 
+  // <div>
+  //               <TextInput style={{backgroundColor: '#262626', height: 'auto', color: 'white', padding: 10, fontSize: 20, marginRight: 30}}
+  //                     value={searchedWords}
+  //                     onChangeText={text => {setSearchedWords(text)}}
+  //                     placeholder={"Type to search..."}
+  //               />
+  //           </div>
+
   return(
-      <div className='Inner-Box' style={{display: 'flex', flexDirection: 'row'}}>
+      <div className='main-box'>
         
-          <div style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                <ThreeLines style={{marginRight: 10}}/>
-                <p className='header' style={{fontSize: 20, fontStyle: "italic"}}>Your notes</p>
+          <div className='left-box'>
+
+            <div className='up-bar'>
+
+              <div className='your-notes'>
+                <ThreeLines className='your-notes-margin'/>
+                <div className='your-notes-margin'>
+                  <h1 className='special-title'>Your notes</h1>
+                </div>
+                <Burger/>
+              </div>
+
+              <div className='searchbardiv'>
+                <button className='searchbar'>
+                  
+                  <div>
+                    <p className='simple-paragraph'>
+                      <span className='usual-text'>
+                        Search
+                      </span>
+                    </p>
+                  </div>
+
+                  <div className='wand-div'>
+                    <Wand className='wand'/>
+                  </div>
+
+                </button>
+              </div>
+
             </div>
 
-            <div style={{display: 'flex', flexGrow: 1, height: '80%'}}>
+            <div className='list-div'>
               <AutoSizer>
                 {({height, width}) => (
                   <FixedSizeList 
-                    className={"customScrollBar"}
+                    className={"scrollbar"}
                     height={height}
                     width={width}
-                    itemSize={60}
+                    itemSize={80}
                     itemCount={spaceDocs.length}
                     overscanCount={5} 
                     itemData={isSearching ? foundDocs : spaceDocs}
@@ -213,30 +268,48 @@ function WorkspaceFilesChooser({workspaceName}){
                 )}
               </AutoSizer>    
             </div>
-            
-            <div style={{display: 'flex', flexDirection: 'row-reverse', paddingTop: 10}}>              
-              <TouchableOpacity onPress={selectFiles}>
-                      <div style={{display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#262626', width: 'max-content', paddingLeft: 10, paddingRight: 10, borderRadius: 10, alignItems: 'center'}}>
-                      <Plus style={{marginRight: 10}}/>
-                        <p style={{color: 'white', textAlign: 'center'}}>Upload files</p>
-                      </div>
-              </TouchableOpacity>
 
-              <TextInput style={{backgroundColor: '#262626', height: 'auto', color: 'white', padding: 10, fontSize: 20, marginRight: 30}}
-                    value={searchedWords}
-                    onChangeText={text => {setSearchedWords(text)}}
-                    placeholder={"Type to search..."}
-              />
+            <br></br>
+            
+            <div className='bottom-div'>
+
+              <div className='new-space-div'>
+                <button className='new-space-button'>
+                  <p className='simple-paragraph'>
+                    <span className='usual-text'>
+                      New Space
+                    </span>
+                  </p>
+                </button>
+              </div>
+
+              <div className='upload-files-div'>
+                <button 
+                className='upload-files-button' 
+                onClick={selectFiles}>
+                    <Plus className='plus'/>
+                    <p className='simple-paragraph'>
+                      <span className='usual-text'>
+                        Upload files
+                      </span>
+                    </p>
+                </button>
+              </div>
+
             </div>
           </div>
   
   
-          <div style={{flex: 1, height: '80vh'}}>
+          <div className='right-box-info'>
             
-            <div style={{backgroundColor: '#212020', padding: 10, border: 2, borderRadius: 15, height: '100%', overflowY: 'scroll'}}>
+            <div className='info-box'>
                   
               <div id='textViewer'>
-                <p style={{color: 'white'}}>{openedText}</p>
+                <p className='simple-paragraph'>
+                  <span className='usual-text'>
+                    {openedText}
+                  </span>
+                </p>
               </div>
               
             </div>
