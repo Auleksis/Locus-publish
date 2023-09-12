@@ -4,8 +4,10 @@ import {ReactComponent as Connections} from '@res/connections.svg'
 import {ReactComponent as ThreeLines} from "@res/threeLines.svg";
 import {ReactComponent as VerticalFileLine} from "@res/vertical_file_line.svg"
 import {ReactComponent as Cross} from "@res/cross.svg"
-import { ReactComponent as Burger } from "@res/burger.svg"
+import {ReactComponent as Burger } from "@res/burger.svg"
 import {ReactComponent as Wand} from "@res/wand.svg";
+import {ReactComponent as FileTrigger} from "@res/file_trigger.svg";
+import {ReactComponent as FileTriggerSelected} from "@res/file_trigger_selected.svg";
 
 import { FixedSizeList } from 'react-window';
 
@@ -13,7 +15,7 @@ import { TouchableOpacity, View, TextInput } from 'react-native-web';
 
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useLayoutEffect } from 'react';
 import {FlatList} from 'react-native-web';
 import { appDataDir, join } from '@tauri-apps/api/path';
 
@@ -49,13 +51,70 @@ appWindow.listen("tauri://destroyed", (event) => {
 });
 
 function WorkspaceFilesChooser({workspaceName}){
+
+  /**
+   * VARIABLES
+   */
+
   const [spaceDocs, setSpaceDocs] = useState([]);
-  const [openedText, setOpenedText] = useState([]);
+  const [openedText, setOpenedText] = useState('');
+  const [textName, setTextName] = useState('');
 
   const [isSearching, setSearching] = useState(false);
   const [searchedWords, setSearchedWords] = useState("");
 
   const [foundDocs, setFoundDocs] = useState([]);
+
+  const [canShowTip, setCanShowTip] = useState(true);
+
+  const [showConnections, setShowConnections] = useState(true);
+
+  const [isCreatingSpace, setCreatingSpace] = useState(false);
+
+  const [selectedIDForNewSpace, setSelectedIDForNewSpace] = useState([]);
+
+
+
+  /**
+   * FUNCTIONS
+   */
+
+  const handleResize = () => {
+    var windowSize = [window.innerWidth, window.innerHeight];
+    var screenSize = [window.screen.availWidth, window.screen.availHeight];
+
+    const vh = windowSize[1] / 100;
+
+    const leftBox = document.getElementById('left-box');
+    const leftBoxHeight = leftBox.offsetHeight;
+
+    const rightBox = document.getElementById('right-box');
+    const rightBoxHeight = rightBox.offsetHeight;
+
+    const connectionsHeight = 226 / 837 * vh / 10;
+
+
+    if(windowSize[1] <= 710){
+      setCanShowTip(false);
+    }else{
+      setCanShowTip(true);
+    }
+
+    if(windowSize[0] <= screenSize[0] / 2 || windowSize[1] < 800 || (windowSize[0] < 1280 && windowSize[1] < 900)){
+      setShowConnections(false);
+    }
+    else{
+      setShowConnections(true);
+    }
+  };
+
+  useLayoutEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(()=>{
     const folderManager = WorkFolderManager.instance;
@@ -159,9 +218,18 @@ function WorkspaceFilesChooser({workspaceName}){
   const docSelected = async(data) => {
     console.log(data);
 
-    const contents = await data.getFileContents();
+    if(data._title !== textName){
 
-    setOpenedText(contents);    
+      const contents = await data.getFileContents();
+
+      setOpenedText(contents); 
+      
+      setTextName(data._title);
+    }
+    else{
+      setOpenedText('');
+      setTextName('');  
+    }
 
     // let text = contents;
     // const regexForContent = new RegExp(searchedWords, 'gi');
@@ -169,6 +237,167 @@ function WorkspaceFilesChooser({workspaceName}){
     // let textViewerContent = `<p style="color: white">${text}</p>`;
     // document.getElementById("textViewer").innerHTML = textViewerContent;
   };
+
+  const clickSelectForNewSpace = (file) => {
+    if(selectedIDForNewSpace.includes(file.id)){
+      const fileIndex = selectedIDForNewSpace.indexOf(file.id);
+      selectedIDForNewSpace.splice(fileIndex, 1);
+    }
+    else{
+      setSelectedIDForNewSpace((prev) => [...selectedIDForNewSpace, file.id]);
+    }
+  }
+
+  const newSpaceClicked = () => {
+    setCreatingSpace(true);
+  }
+
+  const cancelSpaceCreationClicked = () => {
+    setSelectedIDForNewSpace([]);
+    setCreatingSpace(false);
+  }
+
+  const renderContents = () => {
+    return(
+      <div className='right-box-info' id='right-box'>
+            
+            <div className='info-box-content'>
+                  
+              <div 
+                id='textViewer'
+                className='text-viewer'>
+                <h2 className='highweight-title'>
+                  <span className='usual-text'>
+                    {textName}
+                  </span>
+                </h2>
+
+                <p className='simple-paragraph'>
+                  <span className='usual-text'>
+                    {openedText}
+                  </span>
+                </p>
+              </div>
+              
+            </div>
+            
+      </div>
+    );
+  };
+
+  const renderConnections = () => {
+    if(showConnections){
+      return(
+        <div className='connections-div'>
+          <Connections className='connections'/>
+        </div>
+      );
+    }
+    else{
+      return(
+        <div className='connections-div'>
+          
+        </div>
+      );
+    }
+  }
+
+  const renderTip = () => {
+    return(
+      <div className='right-box' id='right-box'>
+              
+              <div className='info-box'>
+
+                  <h2 className='highweight-title'>
+                    <span className='usual-text'>Time to make your writings </span>
+                    <span className='highlighted-text'>shine</span>
+                  </h2>
+      
+                  <div className='info-list-part'>
+                    <div className='zero-margin'>
+                  
+                      <p className='simple-paragraph'>
+                        <span className='usual-text'>
+                          Upload your documents and notes and make them:
+                        </span>
+                      </p>
+                    
+        
+                      <ul className='simple-paragraph'>
+                        <li className='usual-text'>organized</li>
+                        <li className='usual-text'>searchable</li>
+                        <li className='usual-text'>interconnected</li>
+                      </ul>
+
+                      <p className='simple-paragraph'>
+                        <span className='usual-text'>
+                          Bring them to life and create an explorable Space to share with others!
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+    
+                  {
+                    renderConnections()
+                  }
+      
+                  <div className='question-label'>
+                    <h2 className='highweight-title'>
+                      <span className='usual-text'>
+                        Already have your Second Brain?
+                      </span>
+                    </h2>
+                  </div>
+
+                  <div className='import-desc-box'>
+                    <div className='zero-margin'>
+                      <p className='simple-paragraph'>
+                        <span className='usual-text'>
+                          Import needed notes from Obsidian, Notion, Evernote and others! Click this magic button:
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+    
+                  <div className='import-button-div'>
+                    <Link to={'/workspace_file_chooser'} className='simple-link'>
+                      <button className='import-button'>
+                          <p className='simple-paragraph'>
+                            <span className='usual-text'>
+                              Import
+                            </span>
+                          </p>
+                      </button>
+                    </Link>
+                  </div>
+
+
+        </div>
+              
+      </div>
+    );
+  };
+
+  const renderAvailableFileAction = (file) => {
+    if (isCreatingSpace){
+      return(
+        <button 
+          className='file-trigger'
+          onClick={() => clickSelectForNewSpace(file)}>
+            {selectedIDForNewSpace.includes(file.id) ? <FileTriggerSelected/> : <FileTrigger/>}
+        </button>
+      );
+    }
+    else{
+      return(
+        <button 
+          className='cross-button'
+          onClick={() => deleteFile(file.id)}>
+            <Cross/>
+        </button>
+      );
+    }
+  }
 
   const renderFileRow = ({data, index, style}) =>{
     if(data[index]){
@@ -183,7 +412,7 @@ function WorkspaceFilesChooser({workspaceName}){
 
           <VerticalFileLine className='list-item-line'/>
 
-          <button className='list-item-button'>
+          <button className={`list-item-button-${data[index].title === textName ? 'on' : 'off'}`}>
 
             <div className='name-label-div'>
               {/* <ListItemText primary={data[index].title}/> */}
@@ -194,19 +423,85 @@ function WorkspaceFilesChooser({workspaceName}){
               </p>
             </div>
 
-            <div className='cross-button-div'>
-              <button 
-                className='cross-button'
-                onClick={() => deleteFile(data[index].id)}>
-                  <Cross/>
-              </button>
+            <div className='file-action-button-div'>
+              {
+                renderAvailableFileAction(data[index])
+              }
             </div>
 
           </button>
         </ListItem>
       );
     }
+  };
+
+  const renderCreateSpaceOrCancle = () => {
+    if(isCreatingSpace){
+      return(
+        <button 
+          className='cancel-space-creation-button'
+          onClick={cancelSpaceCreationClicked}>
+          <p className='simple-paragraph'>
+            <span className='usual-text'>
+              Cancel
+            </span>
+          </p>
+        </button>
+      );  
+    }
+    else{
+      return(
+        <button 
+          className='new-space-button'
+          onClick={newSpaceClicked}>
+          <p className='simple-paragraph'>
+            <span className='usual-text'>
+              New Space
+            </span>
+          </p>
+        </button>
+      );
+    }
   }
+
+  const renderUploadFilesOrContinue = () => {
+    if(isCreatingSpace){
+      return(
+        <button 
+          className='upload-files-button' 
+          onClick={selectFiles}>
+            <p className='simple-paragraph'>
+              <span className='usual-text'>
+                Continue
+              </span>
+            </p>
+        </button>
+      );
+    }
+    else{
+      return(
+        <button 
+          className='upload-files-button' 
+          onClick={selectFiles}>
+            <Plus className='plus'/>
+            <p className='simple-paragraph'>
+              <span className='usual-text'>
+                Upload files
+              </span>
+            </p>
+        </button>
+      );
+    }
+  }
+
+  const renderRightBox = () => {
+    if(openedText === '' && canShowTip){
+      return renderTip();
+    }
+    else{
+      return renderContents();
+    }
+  };
 
   // <div>
   //               <TextInput style={{backgroundColor: '#262626', height: 'auto', color: 'white', padding: 10, fontSize: 20, marginRight: 30}}
@@ -216,10 +511,15 @@ function WorkspaceFilesChooser({workspaceName}){
   //               />
   //           </div>
 
+
+  /**
+   * LAYOUT
+   */
+
   return(
       <div className='main-box'>
         
-          <div className='left-box'>
+          <div className='left-box' id='left-box'>
 
             <div className='up-bar'>
 
@@ -274,47 +574,20 @@ function WorkspaceFilesChooser({workspaceName}){
             <div className='bottom-div'>
 
               <div className='new-space-div'>
-                <button className='new-space-button'>
-                  <p className='simple-paragraph'>
-                    <span className='usual-text'>
-                      New Space
-                    </span>
-                  </p>
-                </button>
+                {renderCreateSpaceOrCancle()}
               </div>
 
               <div className='upload-files-div'>
-                <button 
-                className='upload-files-button' 
-                onClick={selectFiles}>
-                    <Plus className='plus'/>
-                    <p className='simple-paragraph'>
-                      <span className='usual-text'>
-                        Upload files
-                      </span>
-                    </p>
-                </button>
+                {renderUploadFilesOrContinue()}
               </div>
 
             </div>
           </div>
   
-  
-          <div className='right-box-info'>
-            
-            <div className='info-box'>
-                  
-              <div id='textViewer'>
-                <p className='simple-paragraph'>
-                  <span className='usual-text'>
-                    {openedText}
-                  </span>
-                </p>
-              </div>
-              
-            </div>
-            
-          </div>
+          {
+            renderRightBox()
+          }
+          
   
       </div>
   );

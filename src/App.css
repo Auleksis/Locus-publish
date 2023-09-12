@@ -60,10 +60,6 @@
   background-color: transparent;
 }
 
-.align-self-center{
-  align-self: center;
-}
-
 .box-auto-height{
   min-height: 100px;
 }
