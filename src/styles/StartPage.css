@@ -152,18 +152,19 @@
     margin-top: calc(35 / 837 * 100 * 1vh);
     margin-right: calc(35 / 1400 * 100 * 1vw);
     margin-bottom: calc(35 / 837 * 100 * 1vh);
+
+    border: 2px solid var(--se, rgba(38, 38, 38, 0.75));
+    border-radius: 15px;
+    background: var(--se, rgba(38, 38, 38, 0.75));
 }
 
 .info-box {
-    padding: calc(18 / 837 * 100 * 1vh) calc(26 / 1400 * 100 * 1vw);
-
+    
     display: flex;
-
+    
     flex-direction: column;
-
-    border-radius: 15px;
-    border: 2px solid var(--se, rgba(38, 38, 38, 0.75));
-    background: var(--se, rgba(38, 38, 38, 0.75));
+    
+    padding: calc(18 / 837 * 100 * 1vh) calc(26 / 1400 * 100 * 1vw);
 }
 
 .info-list-part {

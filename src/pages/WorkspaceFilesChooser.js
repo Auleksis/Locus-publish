@@ -43,8 +43,6 @@ import '@styles/WorkspaceFileChooser.css';
 
 
 
-const invokeT = window.__TAURI_IPC__.invoke;
-
 appWindow.listen("tauri://destroyed", (event) => {
   const workSpaceManager = new WorkSpaceManager();
   workSpaceManager.saveWorkSpaceCore();
@@ -73,7 +71,9 @@ function WorkspaceFilesChooser({workspaceName}){
 
   const [selectedIDForNewSpace, setSelectedIDForNewSpace] = useState([]);
 
+  const [showGraph, setShowGraph] = useState(false);
 
+  const [selectedForSpace, setSelectedForSpace] = useState(false);
 
   /**
    * FUNCTIONS
@@ -131,6 +131,22 @@ function WorkspaceFilesChooser({workspaceName}){
     loadFiles();
 
   }, []);
+
+
+  useEffect(() => {
+    // if(selectedForSpace || openedText === ''){
+    //   setShowGraph(true);
+    // }
+    // else{
+    //   setShowGraph(false);
+    // }
+  }, [selectedForSpace, openedText]);
+
+  //Handle if selected ids array length is changed
+  // useEffect(() => {
+  //   setShowGraph(true);
+  // }, [selectedIDForNewSpace.length]);
+
 
   // useEffect(() => {
   //   if(searchedWords.length > 0){
@@ -225,6 +241,8 @@ function WorkspaceFilesChooser({workspaceName}){
       setOpenedText(contents); 
       
       setTextName(data._title);
+
+      setSelectedForSpace(false);
     }
     else{
       setOpenedText('');
@@ -246,21 +264,38 @@ function WorkspaceFilesChooser({workspaceName}){
     else{
       setSelectedIDForNewSpace((prev) => [...selectedIDForNewSpace, file.id]);
     }
+
+    setSelectedForSpace(true);
   }
 
   const newSpaceClicked = () => {
     setCreatingSpace(true);
+    
+    setCanShowTip(false);
   }
 
   const cancelSpaceCreationClicked = () => {
     setSelectedIDForNewSpace([]);
+
     setCreatingSpace(false);
+
+    setCanShowTip(false);
   }
+
+
+
+
+  const searchButtonClicked = () => {
+
+  }
+
+
+
 
   const renderContents = () => {
     return(
       <div className='right-box-info' id='right-box'>
-            
+
             <div className='info-box-content'>
                   
               <div 
@@ -469,7 +504,7 @@ function WorkspaceFilesChooser({workspaceName}){
       return(
         <button 
           className='upload-files-button' 
-          onClick={selectFiles}>
+          onClick={() => {}}>
             <p className='simple-paragraph'>
               <span className='usual-text'>
                 Continue
@@ -492,10 +527,24 @@ function WorkspaceFilesChooser({workspaceName}){
         </button>
       );
     }
-  }
+  };
+
+
+  const renderGraph = () => {
+    return(
+      <div>
+
+      </div>
+    );
+  };
+
 
   const renderRightBox = () => {
+    console.log("GRAPH ", showGraph);
     if(openedText === '' && canShowTip){
+      return renderTip();
+    }
+    else if(showGraph){
       return renderTip();
     }
     else{
@@ -532,21 +581,26 @@ function WorkspaceFilesChooser({workspaceName}){
               </div>
 
               <div className='searchbardiv'>
-                <button className='searchbar'>
-                  
-                  <div>
-                    <p className='simple-paragraph'>
-                      <span className='usual-text'>
-                        Search
-                      </span>
-                    </p>
-                  </div>
 
-                  <div className='wand-div'>
-                    <Wand className='wand'/>
-                  </div>
+                <Link to={`/search_page/${workspaceName}`}>
+                  <button className='searchbar'>
+                    
+                    <div>
+                      <p className='simple-paragraph'>
+                        <span className='usual-text'>
+                          Search
+                        </span>
+                      </p>
+                    </div>
 
-                </button>
+                    <div className='wand-div'>
+                      <Wand className='wand'/>
+                    </div>
+
+                  </button>
+                </Link>  
+                
+
               </div>
 
             </div>

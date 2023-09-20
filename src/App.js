@@ -7,6 +7,7 @@ import {Routes, Route, useNavigate} from 'react-router-dom';
 
 import StartPage from '@pages/StartPage';
 import WorkspaceFilesChooser from '@pages/WorkspaceFilesChooser';
+import SearchPage from './pages/SearchPage';
 
 const DEFAULT_SIZE = [1400, 837];
 
@@ -44,6 +45,7 @@ function App({firstStart}) {
       <Routes>
         <Route path='/' element={<StartPage/>}/>
         <Route path='workspace_file_chooser' element={<WorkspaceFilesChooser workspaceName={'Your Notes'}/>}/>
+        <Route path='search_page/:workspaceName' element={<SearchPage/>}/>
       </Routes>
     </div>
   );

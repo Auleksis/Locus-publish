@@ -134,6 +134,10 @@ export class WorkSpaceManager {
         return file;
     }
 
+    public getAllFiles(): WorkSpaceFile[] | undefined {
+        return this._current_core?.includedFiles;
+    }
+
     public get current_core(): WorkSpaceCore | undefined {
         return this._current_core;
     }
