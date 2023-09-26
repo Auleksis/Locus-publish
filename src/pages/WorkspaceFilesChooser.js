@@ -582,7 +582,9 @@ function WorkspaceFilesChooser({workspaceName}){
 
               <div className='searchbardiv'>
 
-                <Link to={`/search_page/${workspaceName}`}>
+                <Link 
+                  className='simple-link' 
+                  to={`/search_page/${workspaceName}`}>
                   <button className='searchbar'>
                     
                     <div>
@@ -613,7 +615,7 @@ function WorkspaceFilesChooser({workspaceName}){
                     height={height}
                     width={width}
                     itemSize={80}
-                    itemCount={spaceDocs.length}
+                    itemCount={isSearching ? foundDocs.length : spaceDocs.length}
                     overscanCount={5} 
                     itemData={isSearching ? foundDocs : spaceDocs}
                     >

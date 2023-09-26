@@ -1,4 +1,5 @@
 @import url('StartPage.css');
+@import url('WorkspaceFileChooser.css');
 
 .page-box{
     height: 100%;
@@ -23,3 +24,182 @@
 
     align-items: center;
 }
+
+.workspace-image{
+    
+}
+
+
+.back-to-space-div{
+    display: flex;
+    flex: 1;
+    flex-direction: row-reverse;
+
+    align-items: center;
+}
+
+.back-to-space-text{
+    margin-right: calc(20 / 1400 * 100 * 1vw);
+}
+
+.back-to-space-button{
+    background-color: transparent;
+    border-color: transparent;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+}
+
+/* LOGIC FOR OBJECTS NESTED INTO  back-to-space-button WHEN A MOUSE IS HOVER*/
+.back-to-space-button:hover .back-to-space-text{
+    
+}
+
+
+.searchbar-div{
+    margin-top: calc(24 / 837 * 100 * 1vh);
+    margin-bottom: calc(15 / 837 * 100 * 1vh);;
+
+    padding-right: calc(60 / 1400 * 100 * 1vw);
+    padding-left: calc(60 / 1400 * 100 * 1vw);
+}
+
+.searchbar-rect{
+    display: flex;
+
+    flex-direction: row;
+
+    flex: 1;
+
+
+    align-items: center;
+
+
+    padding: calc(7 / 837 * 100 * 1vh) calc(16 / 1400 * 100 * 1vw);
+
+
+    border-radius: 20px;
+    border: 2.454px solid #303030;
+    background: var(--gray-background);
+}
+
+
+.searchbar-input-div{
+    display: block;
+    width: 94%;
+}
+
+.searchbar-input{
+    background: transparent;
+    border: none;
+
+    width: 100%;
+
+
+    font-family: "Skolar Cyrillic-Regular";
+    font-weight: 400;
+    font-style: normal;
+    line-height: normal;
+    font-size: 1.25rem;
+
+    color: var(--usual);
+}
+
+.searchbar-input:empty::before{
+    content: attr(placeHolder);
+    display: inline-block;
+}
+
+.searchbar-input:empty:focus::before{
+    content: attr(focusedPlaceHolder);
+    display: inline-block;
+}
+
+.searchbar-input:focus{
+    background: transparent;
+    border: none;
+    outline-width: 0;
+}
+
+.wand-div{
+    display: flex;
+    flex: 1;
+    flex-direction: row-reverse;
+}
+
+
+.middle-div{
+    display: flex;
+    flex-direction: row;
+    padding: 0 calc(76 / 1400 * 100 * 1vw);
+}
+
+.result-d-div{
+    display: flex;
+    flex: 1;
+    flex-direction: row-reverse;
+}
+
+.display-ways-div{
+    
+}
+
+.list-view-button{
+    background: transparent;
+    border-color: transparent;
+
+    margin-right: calc(29 / 1400 * 100 * 1vw);
+}
+
+.graph-view-button{
+    background: transparent;
+    border-color: transparent;
+}
+
+
+.found-files-list-div {
+    display: flex;
+    flex-grow: 1;
+    height: 80%;
+
+    padding: 0 calc(76 / 1400 * 100 * 1vw);
+}
+
+
+.found-file-item-button{
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    padding-top: calc(15 / 837 * 100 * 1vh);
+    padding-bottom: calc(17 / 837 * 100 * 1vh);
+
+    padding-right: calc(17 / 1400 * 100 * 1vw);
+    padding-left: calc(17 / 1400 * 100 * 1vw);
+
+    border-radius: 15px;
+
+    border: 2px solid var(--se, rgba(38, 38, 38, 0.75));
+    background: var(--se, rgba(38, 38, 38, 0.75));
+}
+
+.found-file-item-button:hover{
+    background: var(--se, rgba(29, 29, 29, 0.75));
+}
+
+.found-file-item-button:active{
+    background: var(--se, rgba(20, 20, 20, 0.75));
+}
+
+.found-file-item-name-div{
+    margin-bottom: calc(13 / 837 * 100 * 1vh);
+}
+
+.found-file-preview-text-div{
+    
+}
+
+

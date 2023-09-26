@@ -119,6 +119,11 @@
     color: var(--act);
 }
 
+
+.weight-700{
+    font-weight: 700;
+}
+
 .highweight-title {
     font-family: "Skolar Cyrillic-Regular";
     font-weight: 600;
