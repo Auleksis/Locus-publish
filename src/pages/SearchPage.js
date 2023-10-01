@@ -59,7 +59,7 @@ function SearchPage(){
 
     //ADDITIONAL FIELDS
 
-    //BUFFER FOR LOADED FILES FROM THE CHOSEN WORKSPACE
+    //BUFFER FOR LOADED FILES FROM THE CHOSEN WORKSPACE AND THEIR CONTENT
     const [filesBuffer, setFilesBuffer] = useState([]);
 
     //BUFFER FOR FOUND FILES BY A REQUEST 
@@ -105,17 +105,15 @@ function SearchPage(){
 
             const spaceFiles = workspaceManager.getAllFiles();
 
-            setFilesBuffer(spaceFiles);
-
             //LOAD FILES TEXT
-            let texts = []
+            let finalBuf = []
 
             for(let i = 0; i < spaceFiles.length; i++){
                 const text = await spaceFiles[i].getFileContents();
-                texts.push({text_name: spaceFiles[i].title, text_content: text});
+                finalBuf.push({workfile: spaceFiles[i], textContent: text});
             }
 
-            setFilesText(texts);
+            setFilesBuffer(finalBuf);
         };
 
         loadFiles();
@@ -143,7 +141,17 @@ function SearchPage(){
         const manager = new WorkSpaceManager();
         const found = manager.search(request);
 
-        setFoundFiles(found);
+        let files = []
+
+        for(let i = 0; i < found.length; i++){
+            const index = (file) => file.workfile === found[i];
+
+            const foundWithContent = filesBuffer[filesBuffer.findIndex(index)];
+
+            files.push(foundWithContent);
+        }
+
+        setFoundFiles(files);
 
     }, [request]);
 
@@ -172,48 +180,66 @@ function SearchPage(){
     //------------------------------------------------------------------
 
     //USEFUL TOOLS
-    //FIXME: IT SHOULD ADD WHOLE WORDS NOT LETTERS!
-    const getTextSummuryByRequest = (original_text) => {
-        const regexForContent = new RegExp(request);
 
-        const word_index = original_text.search(regexForContent);
+
+
+    
+    /**
+     * This function returns an interval of words consisting of words before and after the searched word.
+     * @param originalText - a text where the searched word could be.
+     * @param intervaLength - full length of interval. Words which are placed from the searched word not further than intervaLength / 2 will be included.
+     * @returns an interval of words
+     */
+    const getTextSummuryByRequest = (originalText, intervaLength) => {
+        const regexForContent = new RegExp(request.trim(), 'gim');
+
+        console.log("SUMMARY FORMATION:");
+
+        console.log("ORIGINAL:");
+        console.log(originalText);
+
+        const word_index = originalText.search(regexForContent);
 
         if(word_index < 0)
             return;
 
-        const len = original_text.length;
+        const len = originalText.length;
 
         const delta = 25;
 
-        let left_b = word_index - delta;
-        let right_b = word_index + delta;
+        let leftBorder = word_index - delta;
+        let rightBorder = word_index + delta;
 
-        let right_appendix = '';
-        let left_appendix = '';
+        let rightAppendix = '';
+        let leftAppendix = '';
 
-        if (left_b < 0){
-            left_b = 0;
+        if (leftBorder < 0){
+            leftBorder = 0;
         }
 
-        if(right_b >= len){
-            right_b = len - 1;
+        if(rightBorder >= len){
+            rightBorder = len - 1;
         }
 
 
         //APPENDIX LOGIC
-        if(left_b > 0){
-            left_appendix = '...';
+        if(leftBorder > 0){
+            leftAppendix = '...';
         }
 
-        if(right_b < len){
-            right_appendix = '...';
+        if(rightBorder < len){
+            rightAppendix = '...';
         }
 
 
-        const displayed_text = left_appendix + original_text.substring(left_b, right_b) + right_appendix;
+        const displayedText = leftAppendix + originalText.substring(leftBorder, rightBorder) + rightAppendix;
 
 
-        return displayed_text;
+        console.log("MODIFIED");
+        console.log(displayedText);
+
+
+        return displayedText;
     }
 
 
@@ -251,7 +277,7 @@ function SearchPage(){
                             <p className='simple-paragraph'>
                                 <span className='usual-text'>
                                     <span className='weight-700'>
-                                        {data[index]._title}
+                                        {data[index].workfile._title}
                                     </span>
                                 </span>
                             </p>
@@ -263,7 +289,7 @@ function SearchPage(){
 
                             <p className='simple-paragraph'>
                                 <span className='usual-text'>
-                                    {getTextSummuryByRequest(filesText[index].text_content)}
+                                    {getTextSummuryByRequest(data[index].textContent)}
                                 </span>
                             </p>                            
 
@@ -405,7 +431,7 @@ function SearchPage(){
                 <AutoSizer>
                     {({height, width}) => (
                     <FixedSizeList 
-                        className={"scrollbar"}
+                        className={"found-files-list-scrollbar"}
                         height={height}
                         width={width}
                         itemSize={150}
