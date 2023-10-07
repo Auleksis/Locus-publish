@@ -68,7 +68,13 @@
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
-        "timestampUrl": ""
+        "timestampUrl": "",
+        "nsis": {
+          "installMode": "both",
+          "sidebarImage": "res/sidebarImg.bmp",
+          "headerImage": "res/headerImg.bmp",
+          "installerIcon": "icons/icon.ico"
+        }
       }
     },
     "security": {
@@ -83,7 +89,8 @@
         "height": 837,
         "resizable": true,
         "title": "Locus",
-        "width": 1400
+        "width": 1400,
+        "minHeight": 431
       }
     ]
   }

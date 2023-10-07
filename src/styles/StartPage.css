@@ -238,3 +238,7 @@
 .simple-link {
     text-decoration: none;
 }
+
+.plus{
+    margin-right: calc(10 / 1400 * 100 * 1vw);
+}

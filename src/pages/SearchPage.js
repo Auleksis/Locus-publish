@@ -434,7 +434,7 @@ function SearchPage(){
                         className={"found-files-list-scrollbar"}
                         height={height}
                         width={width}
-                        itemSize={150}
+                        itemSize={125}
                         itemCount={foundFiles.length}
                         overscanCount={5} 
                         itemData={foundFiles}

@@ -58,7 +58,7 @@ function StartPage(){
   
             <Link to={'/workspace_file_chooser'} style={{textDecoration: 'none'}}>
               <button className='upload-button'>
-                  <Plus style={{marginRight: 10}}/>
+                  <Plus className='plus'/>
                   <h2 className='upload-files-label'>
                     <span className='highlighted-text'>Upload </span>
                     <span className='usual-text'>files</span>
