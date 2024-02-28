@@ -5,6 +5,8 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
+import { initializeFirebase, testDB } from './publishing/FirebaseModule';
+
 import StartPage from '@pages/StartPage';
 import WorkspaceFilesChooser from '@pages/WorkspaceFilesChooser';
 import SearchPage from './pages/SearchPage';
@@ -12,6 +14,9 @@ import SearchPage from './pages/SearchPage';
 const DEFAULT_SIZE = [1400, 837];
 
 function App({firstStart}) {
+  initializeFirebase();
+  testDB();
+
   const navigate = useNavigate();
 
   function updateFontSize (){
