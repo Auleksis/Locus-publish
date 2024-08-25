@@ -25,7 +25,8 @@
     "sequelize": "^6.32.1",
     "sqlite3": "^5.1.6",
     "styled-components": "^6.0.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yarn": "^1.22.22"
   },
   "scripts": {
     "start": "react-app-rewired start",

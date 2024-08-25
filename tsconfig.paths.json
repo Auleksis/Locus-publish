@@ -1,16 +1,16 @@
 {
-    "compilerOptions": {
-        "paths": {
-            "@src/*" : ["./src/*"],
-            
-            "@res/*": ["./src/resources/*"],
+  "compilerOptions": {
+    "paths": {
+      "@src/*": ["./src/*"],
 
-            "@storage/*": ["./src/storage/*"],
-            "@model/*": ["./src/model/*"],
+      "@res/*": ["./src/Resources/*"],
 
-            "@styles/*": ["./src/styles/*"],
-            "@fonts/*": ["./src/fonts/*"],
-            "@pages/*": ["./src/pages/*"]
-        }
+      "@storage/*": ["./src/storage/*"],
+      "@model/*": ["./src/model/*"],
+
+      "@styles/*": ["./src/styles/*"],
+      "@fonts/*": ["./src/fonts/*"],
+      "@pages/*": ["./src/pages/*"]
     }
+  }
 }

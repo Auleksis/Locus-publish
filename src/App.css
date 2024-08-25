@@ -1,5 +1,6 @@
 .App {
-  background-image: linear-gradient(113deg, #212020 0%, #000 100%), url('./resources/t.jpeg');
+  background-image: linear-gradient(113deg, #212020 0%, #000 100%),
+    url("/src/Resources/t.jpeg");
 
   overflow: hidden;
   height: 100vh;
@@ -7,7 +8,7 @@
   width: 100vw;
 }
 
-.Inner-Box{
+.Inner-Box {
   padding: 2%;
   flex-direction: row;
 }
@@ -23,8 +24,7 @@
   }
 }
 
-.App-header { 
-
+.App-header {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -47,20 +47,18 @@
   }
 }
 
-
-.header{
-  color: #C084FC;
+.header {
+  color: #c084fc;
 }
 
-.CreateSpace{
+.CreateSpace {
   background: linear-gradient(112.9deg, #212020 0%, #000000 100%);
 }
 
-.no-background{
+.no-background {
   background-color: transparent;
 }
 
-.box-auto-height{
+.box-auto-height {
   min-height: 100px;
 }
-
